@@ -1,29 +1,15 @@
 <template>
-  <q-dialog
-    v-model="visible"
-    :title="state.title"
-    draggable
-    :close-on-click-modal="false"
-    @before-show="openFun"
-  >
+<div class="q-pa-md q-gutter-sm">
+   <q-btn label="Close Icon" color="primary" @click="icon = true" />
+  <q-dialog v-model="visible" :title="state.title" draggable  :close-on-click-modal="false" @before-show="openFun" >
     <q-card class="myClass">
-      <!-- Botón de cierre en la parte superior derecha -->
-      <q-btn
-  flat
-  round
-  dense
-  icon="close"
-  class="absolute-top-right"
-  @click="visible = false"
-/>
-
       <q-card-section>
         <div class="text-h6">{{ state.title }}</div>
       </q-card-section>
 
       <q-card-section>
         <q-form @submit="submitForm" ref="clienteRef">
-          <q-input v-model="state.form.idcliente" label="Id" :disable="true" />
+          <q-input v-model="state.form.idcliente" label="Id" :disable="true" />  <!-- Campo Id deshabilitado -->
           <q-input v-model="state.form.compania" label="Compañía" />
           <q-input v-model="state.form.apellidos" label="Apellidos" />
           <q-input v-model="state.form.nombre" label="Nombre" />
@@ -41,6 +27,7 @@
           <q-input v-model="state.form.web" label="Pagina Web" />
           <q-input v-model="state.form.notas" label="Notas" />
           <q-input v-model="state.form.datosadjuntos" label="Datos Abjuntos" />
+          <!-- ...otros campos del formulario... -->
         </q-form>
       </q-card-section>
 
@@ -50,6 +37,7 @@
       </q-card-actions>
     </q-card>
   </q-dialog>
+</div>
 </template>
 
 <script setup>

@@ -61,7 +61,7 @@
 />
             <!-- Componente de edición -->
       <editDClientes
- v-model:dialog-visible="editarVisible"
+ v-model:editar-visible="editarVisible"
   :cliente-obj="state.clienteObj"
 />
 
@@ -150,8 +150,6 @@ const onEdit = (row) => {
 };
 
 const onPedidos = (id) => {
-  console.log('id')
-  console.log(id)
   if (!id) {
   errorMsg('Fila inválida o ID de cliente no encontrado:',id)
   return; }

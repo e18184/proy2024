@@ -126,8 +126,6 @@
   
   onMounted(() => {
     getModulo1TableFun();
-    console.log('estado modulo1');
-    console.log(state);
   });
   
   </script>
