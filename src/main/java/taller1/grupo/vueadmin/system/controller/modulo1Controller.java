@@ -40,7 +40,7 @@ public class modulo1Controller extends ResultUtil {
     @GetMapping("/modulo1/tabledclientes")
     public ResponseEntity<Object> queryModulo1DclientesTable(QueryDto queryDto) {
         try {
-            System.out.println(modulo1Service.queryModulo1DClientesTable(queryDto));
+            //System.out.println(modulo1Service.queryModulo1DClientesTable(queryDto));
             return success(true, modulo1Service.queryModulo1DClientesTable(queryDto));
         } catch (BadRequestException e) {
             return fail(false, e.getMsg());
