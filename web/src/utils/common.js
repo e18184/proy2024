@@ -5,7 +5,11 @@ import {useStore} from "../store";
  */
 
 export function resetForm(ref){
-    ref.resetFields()
+    if (ref && typeof ref.resetFields === 'function') {
+        ref.resetFields();
+      } else {
+        console.error('La referencia es inválida o no tiene el método resetFields:', ref);
+      }
 }
 
 /**

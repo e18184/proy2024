@@ -24,7 +24,6 @@
     <authorize-role v-model:auth-visible="authVisible" :role-id="state.roleId"></authorize-role>
   </div>
 </template>
-
 <script setup>
 import editRole from "./editRole";
 import authorizeRole from "./authorizeRole";
@@ -33,22 +32,17 @@ import {errorMsg, infoMsg, successMsg} from "../../utils/message";
 import {hasPer} from "../../utils/common";
 import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox} from "element-plus";
-
 const state = reactive({
   blurry: '',
   tableData: [],
   roleId: null,
   roleObj: {},
 })
-
 const dialogVisible = ref(false)
-
 const authVisible = ref(false)
-
 onMounted(() => {
   getRoleListFun()
 })
-
 //  Obtener lista de roles
 const getRoleListFun = () => {
   getRoleList({blurry: state.blurry}).then(res => {
@@ -89,7 +83,5 @@ const delRoleFun = (id, name) => {
   })
 }
 </script>
-
 <style scoped>
-
 </style>

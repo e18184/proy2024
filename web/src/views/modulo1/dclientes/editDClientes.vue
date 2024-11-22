@@ -1,23 +1,51 @@
 <template>
-  <q-dialog v-model="visible">
+  <q-dialog
+    v-model="visible"
+    :title="state.title"
+    draggable
+    :close-on-click-modal="false"
+    @before-show="openFun"
+  >
     <q-card class="myClass">
+      <!-- Botón de cierre en la parte superior derecha -->
+      <q-btn
+  flat
+  round
+  dense
+  icon="close"
+  class="absolute-top-right"
+  @click="visible = false"
+/>
+
       <q-card-section>
         <div class="text-h6">{{ state.title }}</div>
       </q-card-section>
 
       <q-card-section>
-        <q-form @submit="submitForm">
-          <q-input v-model="state.form.idcliente" label="Id" :disable="true" />  <!-- Campo Id deshabilitado -->
+        <q-form @submit="submitForm" ref="clienteRef">
+          <q-input v-model="state.form.idcliente" label="Id" :disable="true" />
           <q-input v-model="state.form.compania" label="Compañía" />
           <q-input v-model="state.form.apellidos" label="Apellidos" />
           <q-input v-model="state.form.nombre" label="Nombre" />
+          <q-input v-model="state.form.correo" label="Correo" />
+          <q-input v-model="state.form.cargo" label="Cargo" />
+          <q-input v-model="state.form.telefonotrabajo" label="Telefono del Trabajo" />
+          <q-input v-model="state.form.telefonoparticular" label="Telefono Particular" />
+          <q-input v-model="state.form.telefonomovil" label="Telefono Movil" />
           <q-input v-model="state.form.numerofax" label="Numero fax" />
-          <!-- ...otros campos del formulario... -->
+          <q-input v-model="state.form.direccion" label="Direccion" />
+          <q-input v-model="state.form.ciudad" label="Ciudad" />
+          <q-input v-model="state.form.estadoprovincia" label="Estado Provincia" />
+          <q-input v-model="state.form.cpostal" label="Codigo Postal" />
+          <q-input v-model="state.form.pais" label="Pais o Region" />
+          <q-input v-model="state.form.web" label="Pagina Web" />
+          <q-input v-model="state.form.notas" label="Notas" />
+          <q-input v-model="state.form.datosadjuntos" label="Datos Abjuntos" />
         </q-form>
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Cancelar" color="negative" @click="visible = false" />
+        <q-btn flat label="Reiniciar" color="negative" @click="resetForm(clienteRef)" />
         <q-btn flat label="Guardar" color="primary" @click="submitForm" />
       </q-card-actions>
     </q-card>
@@ -25,25 +53,28 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue';
 import { editCliente } from '../../../api/modulo1/modulo1';
+import { ref, reactive, computed, watch } from 'vue';
+import { resetForm } from '../../../utils/common';
+import { errorMsg, successMsg } from '../../../utils/message';
+
 const props = defineProps({
-  modelValue: {
+  editarVisible : { 
     type: Boolean,
     required: true,
+    default: false
   },
-  clienteObj: {
-    type: Object,
-    required: true,
-  }
+  clienteObj: Object 
 });
 
-const emit = defineEmits(['update:dialogVisible', 'get-list']);
+const emit = defineEmits(['update:editarVisible', 'get-list']);
 
 const visible = computed({
-  get: () => props.dialogVisible,
-  set: (val) => emit('update:dialogVisible', val)
+  get: () => props.editarVisible,
+  set: (val) => emit('update:editarVisible', val)
 });
+
+const isLoading = ref(false);
 
 const state = reactive({
   title: 'Editar Cliente',
@@ -52,56 +83,52 @@ const state = reactive({
     compania: '',
     apellidos: '',
     nombre: '',
-    email: '',
+    correo: '',
     cargo: '',
-    telefonoTrabajo: '',
-    telefonoParticular: '',
-    telefonoMovil: '',
-    numeroFax: '',
+    telefonotrabajo: '',
+    telefonoparticular: '',
+    telefonomovil: '',
+    numerofax: '',
     direccion: '',
     ciudad: '',
-    estadoProvincia: '',
-    codigoPostal: '',
-    paisRegion: '',
-    paginaWeb: '',
+    estadoprovincia: '',
+    cpostal: '',
+    pais: '',
+    web: '',
     notas: '',
-    datosAdjuntos: ''
+    datosadjuntos: ''
   }
 });
 
-// Observa los cambios en el cliente seleccionado
-watch(() => props.clienteObj, (newCliente) => {
-  if (newCliente && newCliente.idcliente) {
-    openFun();  // Actualiza los datos del formulario
-  }
-});
 
-const openFun = () => {
-  if (props.clienteObj.idcliente) {
-    state.title = 'Editar Cliente';
-    state.form = { ...props.clienteObj };  // Asigna los datos del cliente al formulario
-  }
-};
-
+// guardamos las modificaciones 
 const submitForm = () => {
-  emit('get-list', state.form);  // Envía los datos actualizados
-
-  visible.value = false;
-  console.log('se presiono aceptar');
   editCliente(state.form) .then(res => {
     if (res.success) {
-     
-      console.log('los datos se guardaron correctamente');
+      successMsg(res.data)
+      visible.value = false
+      emit('get-list')
     } else {
       errorMsg(res.msg);
     }
+    isLoading.value = false
+  })
+}
+const clienteRef = ref()
+const openFun = () => {
+  console.log('abrio el formulario Cliente')
+  resetForm(clienteRef.value)
+  state.title = 'Nuevo'
+  isLoading.value = false
+  console.log('clienteObj')
+  console.log(props.clienteObj)
+  if (props.clienteObj.idcliente){
+    state.title = 'Editar'
+    state.form = props.clienteObj
+  }
+}
 
-  } ).catch(() => {
-    loading.value = false;
-  });
-};
 </script>
-
 <style>
 .myClass {
   max-width: 1200px;

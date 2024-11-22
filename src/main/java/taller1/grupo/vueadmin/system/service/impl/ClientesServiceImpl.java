@@ -1,27 +1,28 @@
 package taller1.grupo.vueadmin.system.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import lombok.RequiredArgsConstructor;
 import taller1.grupo.vueadmin.common.exception.BadRequestException;
 import taller1.grupo.vueadmin.common.utils.StringUtil;
 import taller1.grupo.vueadmin.constant.CommonConstants;
 import taller1.grupo.vueadmin.system.entity.Clientes;
-import taller1.grupo.vueadmin.system.entity.dto.QueryDto;
+import taller1.grupo.vueadmin.system.entity.dto.Clientes2Dto;
 import taller1.grupo.vueadmin.system.entity.dto.ClientesDto;
 import taller1.grupo.vueadmin.system.entity.dto.ClientesProductosDto;
-import taller1.grupo.vueadmin.system.entity.dto.Clientes2Dto;
+import taller1.grupo.vueadmin.system.entity.dto.QueryDto;
 import taller1.grupo.vueadmin.system.mapper.ClientesMapper;
 import taller1.grupo.vueadmin.system.service.ClientesService;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor

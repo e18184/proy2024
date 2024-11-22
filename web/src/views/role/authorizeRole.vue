@@ -17,13 +17,11 @@
     </template>
   </el-dialog>
 </template>
-
 <script setup>
 import {getMenuTable} from "../../api/menu/sysMenu";
 import {getMenusByRoleId, authorizeRole} from "../../api/role/sysRole";
 import {errorMsg, successMsg} from "../../utils/message";
 import {computed, reactive, ref} from "vue";
-
 const props = defineProps({
   authVisible: {
     type: Boolean,
@@ -32,18 +30,13 @@ const props = defineProps({
   },
   roleId: Number
 })
-
 const emit = defineEmits(['update:authVisible'])
-
 const visible = computed({
   get: () => props.authVisible,
   set: (val) => emit('update:authVisible', val)
 })
-
 const isLoading = ref(false)
-
 const tree = ref()
-
 const state = reactive({
   treeData: [],
   authorizeData: [],
@@ -52,7 +45,6 @@ const state = reactive({
     label: 'name'
   }
 })
-
 const openFun = () => {
   isLoading.value = false
   state.authorizeData = []
@@ -100,7 +92,4 @@ const submitAuthorize = () => {
   })
 }
 </script>
-
-<style scoped>
-
-</style>
+<style scoped> </style>

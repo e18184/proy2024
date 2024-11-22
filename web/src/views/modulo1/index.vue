@@ -14,11 +14,9 @@
             :rows="state.tableData"
             :columns="columns"
             row-key="state.tableData[0]"
-            v-model:pagination="pagination"
             :loading="loading"
             :filter="state.blurry"
             binary-state-sort
-            @request="onRequest"
           >
           <!--busqueda-->
             <template v-slot:top-right>
@@ -37,11 +35,10 @@
       </template>
       -->
           </q-table>
-          <q-pagination
-            v-model="pagination.page"
-            :max="Math.ceil(state.total / pagination.rowsPerPage)" 
-            @update:model-value="getModulo1TableFun"
-          />
+          <pagination v-model:current="state.current" 
+	 v-model:size="state.size" v-model:total="state.total" 
+	 @get-list="getModulo1TableFun"></pagination>
+    
         </div>
       </q-page-container>
     </q-layout>
@@ -51,7 +48,7 @@
   import {  getModulo1Table } from '../../api/modulo1/modulo1';
   import { errorMsg } from '../../utils/message';
   import { date } from 'quasar';
- 
+  import Pagination from "../../components/Pagination.vue";
 
 
   const state = reactive({
@@ -108,7 +105,7 @@
       // tamaño 
       size: state.size,
       // Usa la página actual de la paginación
-      currentPage: pagination.value.page 
+      currentPage: state.current
     };
   
     getModulo1Table(params)
@@ -126,32 +123,10 @@
       });
   };
   
-  const onRequest = (props) => {
-    const { page, rowsPerPage, sortBy, descending } = props.pagination;
-    pagination.value.sortBy = sortBy || '';
-    pagination.value.descending = descending;
-    pagination.value.page = page;
-    pagination.value.rowsPerPage = rowsPerPage;
-  
-    state.current = page; // Actualiza el estado actual
-    state.size = rowsPerPage; // Actualiza el tamaño de la página
-    console.log('estado current cliente');
-    console.log(state);
-    getModulo1TableFun();
-    
-  };
   
   onMounted(() => {
     getModulo1TableFun();
-    console.log('estado modulo1');
-    console.log(state);
   });
-  /* const onEdit = (row) => {
-      console.log('editar'+row.idpedido)
-    }
-    
-    async function onDelete(prop) {
-    console.log('eliminar'+prop.idpedido);
-  }*/
+  
   </script>
   

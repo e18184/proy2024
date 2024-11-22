@@ -22,13 +22,11 @@
     </template>
   </el-dialog>
 </template>
-
 <script setup>
 import {editRole} from "../../api/role/sysRole";
 import {errorMsg, successMsg} from "../../utils/message";
 import {computed, reactive, ref} from "vue";
 import {resetForm} from "../../utils/common";
-
 const props = defineProps({
   dialogVisible: {
     type: Boolean,
@@ -37,16 +35,12 @@ const props = defineProps({
   },
   roleObj: Object
 })
-
 const emit = defineEmits(['update:dialogVisible', 'get-list'])
-
 const visible = computed({
   get: () => props.dialogVisible,
   set: (val) => emit('update:dialogVisible', val)
 })
-
 const isLoading = ref(false)
-
 const state = reactive({
   title: 'Nuevo',
   roleForm: {
@@ -60,9 +54,7 @@ const state = reactive({
     roleCode: [{required: true, message: 'El código de rol no puede estar vacío', trigger: 'blur'}]
   }
 })
-
 const roleRef = ref()
-
 const openFun = () => {
   resetForm(roleRef.value)
   state.title = 'Nuevo'
@@ -90,15 +82,10 @@ const submitRole = () => {
     }
   })
 }
-
 </script>
-
 <style scoped>
- :deep(.vue-treeselect__control){
-  height: 28px;
+ :deep(.vue-treeselect__control){   height: 28px;
 }
  :deep(.el-form-item__content){
-   line-height: 28px;
-   font-size: 12px;
- }
-</style>
+   line-height: 28px;   font-size: 12px;
+ } </style>
